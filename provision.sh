@@ -36,10 +36,10 @@ sudo chkconfig --levels 235 httpd on
 # Check services are running
 sudo service httpd start
 sudo service mysqld start
-sudo mysqladmin -u root password 'Ar0undMe'
-sudo mysqladmin -u root -h localhost.localdomain password 'Ar0undMe'
-db="create database drupal;GRANT ALL PRIVILEGES ON drupal.* TO root@localhost IDENTIFIED BY 'Ar0undMe';FLUSH PRIVILEGES;"
-mysql -u root -pAr0undMe -e "$db"
+sudo mysqladmin -u root password 'DrupalAdmin'
+sudo mysqladmin -u root -h localhost.localdomain password 'DrupalAdmin'
+db="create database drupal;GRANT ALL PRIVILEGES ON drupal.* TO root@localhost IDENTIFIED BY 'DrupalAdmin';FLUSH PRIVILEGES;"
+mysql -u root -pDrupalAdmin -e "$db"
 echo Install Drupal
 sudo pecl install uploadprogress
 sudo touch /etc/php.d/uploadprogress.ini
@@ -57,3 +57,7 @@ cd drupal
 sudo drush -y site-install standard --account-name=admin --account-pass=admin --db-url=mysql://root:Ar0undMe@localhost/drupal --site-name=drupal
 sudo drush -y dl ctools views token pathauto backup_migrate
 sudo drush -y en ctools views token pathauto backup_migrate
+sudo /etc/init.d/vboxadd setup
+sudo mount -t vboxsf -o uid=`id -u vagrant`,gid=`getent group vagrant | cut -d: -f3` /vagrant /vagrant
+sudo mount -t vboxsf -o uid=`id -u vagrant`,gid=`id -g vagrant` /vagrant /vagrant
+
